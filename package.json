@@ -1,0 +1,19 @@
+{
+  "name": "portfolio-website",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "postinstall": "cp node_modules/@xterm/xterm/css/xterm.css src/xterm.css"
+  },
+  "devDependencies": {
+    "typescript": "~5.8.3",
+    "vite": "^6.3.5"
+  },
+  "dependencies": {
+    "@xterm/xterm": "^5.5.0"
+  }
+}
