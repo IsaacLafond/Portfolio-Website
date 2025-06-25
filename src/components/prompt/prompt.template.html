@@ -1,0 +1,55 @@
+<style>
+    :host {
+        display: block;
+    }
+
+    #prompt-line{
+        display: block;
+        word-break: break-all;
+        line-height: 1.5;
+    }
+
+    #prompt-arrow {
+        display: inline-block;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        margin: 0;
+    }
+
+    #cursor {
+        display: inline-block;
+        width: 1ch;
+        white-space-collapse: preserve;
+        /* height: 1.5em; */
+        /* vertical-align: -25%; */
+        vertical-align: baseline;
+        background-color: white;
+        color: white;
+        animation: blink 1s step-start 0s infinite;
+    }
+    @keyframes blink {
+        50% {
+            background-color: transparent;
+        }
+    }
+    textarea {
+        position: absolute;
+        left: -9999px;
+        opacity: 0;
+        pointer-events: none;
+        width: 1px;
+        height: 1px;
+    }
+</style>
+<div id="transient-line">~</div>
+
+<div id="prompt-line">
+    <button id="prompt-arrow">❯</button>
+    <span id="left">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut soluta ipsa ducimus animi quos nesciunt accusantium doloribus obc
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam repudiandae quia quos sunt fuga quasi sint veniam sit qui excepturi repellat, deserunt illum repellendus, quisquam illo voluptatibus suscipit labore pariatur.
+    </span><span id="cursor">   </span><span id="right">ecati quaerat beatae!</span>
+</div>
+
+<textarea id="input-helper"></textarea>
