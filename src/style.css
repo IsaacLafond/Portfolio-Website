@@ -21,8 +21,3 @@
   overscroll-behavior: none;
   box-sizing: border-box;
 }
-
-#terminal {
-  width: 100vw;
-  height: 100vh;
-}

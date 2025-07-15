@@ -1,0 +1,67 @@
+<style>
+    .header {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        height: 30px;
+        width: 100%;
+        background-color: rgb(54, 58, 57);
+    }
+    .dot-container {
+        grid-column: 1;
+        height: fit-content;
+        display: flex;
+        gap: 8px;
+        margin-left: 8px;
+    }
+    .dot {
+        min-height: 12px;
+        min-width: 12px;
+        border-radius: 50%;
+    }
+    .title {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        height: fit-content;
+        font-size: 0.75em;
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+        font-weight: bold;
+        margin: 0;
+        grid-column: 2;
+        justify-self: center;
+        color: #eeeeee;
+        user-select: none;
+    }
+</style>
+<div class="header">
+    <div class="dot-container">
+        <span class="dot" style="background-color: #ff5f56;"></span>
+        <span class="dot" style="background-color: #ffbd2e;"></span>
+        <span class="dot" style="background-color: #27c93f;"></span>
+    </div>
+    <div class="title">
+        <svg height="15" viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M2,19
+                a17,17 0 0 1 17,-17
+                h45
+                a8,8 0 0 1 6,3
+                l14,15
+                h97
+                a17,17 0 0 1 17,17 
+                v104
+                a17,17 0 0 1 -17,17
+                h-162
+                a17,17 0 0 1 -17,-17
+                z"
+                fill="#289BE3FF"
+                stroke="#1C7ECEFF"
+                stroke-width="4"/>
+            <rect x="4" y="35" rx="15" ry="15" width="192" height="121" fill="#65D4FEFF"/>
+        </svg>
+        <span id="workingDir"></span>
+        <span>—</span>
+        <span id="dimensions"></span>
+    </div>
+</div>
