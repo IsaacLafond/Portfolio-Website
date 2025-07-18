@@ -1,19 +1,8 @@
 import { Terminal } from '@xterm/xterm'
 import { FitAddon } from "@xterm/addon-fit";
+import { Readline } from "xterm-readline";
+import { processCommand, showBanner } from "./processCommand";
 import './xterm.css';
-
-interface TerminalState {
-  wd: string;
-  inputBuffer: string;
-  cursorPosition: number;
-}
-
-// ██╗    ██╗███████╗██╗      ██████╗ ██████╗ ███╗   ███╗███████╗██╗
-// ██║    ██║██╔════╝██║     ██╔════╝██╔═══██╗████╗ ████║██╔════╝██║
-// ██║ █╗ ██║█████╗  ██║     ██║     ██║   ██║██╔████╔██║█████╗  ██║
-// ██║███╗██║██╔══╝  ██║     ██║     ██║   ██║██║╚██╔╝██║██╔══╝  ╚═╝
-// ╚███╔███╔╝███████╗███████╗╚██████╗╚██████╔╝██║ ╚═╝ ██║███████╗██╗
-//  ╚══╝╚══╝ ╚══════╝╚══════╝ ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝╚═╝
 
 // ==========================
 // ===== Terminal Logic =====
@@ -44,84 +33,53 @@ export function setupTerminal() {
       brightWhite: "#63718B"
     }
   })
-  // let termState: TerminalState = {
-  //   wd: "~/Projects",
-  //   inputBuffer: "",
-  //   cursorPosition: 0
-  // }
+  // init addons
   const fitAddon = new FitAddon()
+  const readline = new Readline()
   
-  // init terminal UI
+  // init terminal UI/add addons
   term.loadAddon(fitAddon)
+  term.loadAddon(readline)
   term.open(document.getElementById('terminal')!); // add term to #terminal div
+  // fit terminal and update dimensions
   fitAddon.fit()
   updateHeaderDimensions(term)
-  
-  console.log(getCellSize(term))
+
   // write to terminal
-  // term.write('Welcome to My Terminal UI\r\n'); // write welcome message
-  term.writeln(` ____ ____ ____ ____ ____ ____ ____ ____ \r\n||W |||e |||l |||c |||o |||m |||e |||! ||\r\n||__|||__|||__|||__|||__|||__|||__|||__||\r\n|/__\\|/__\\|/__\\|/__\\|/__\\|/__\\|/__\\|/__\\|\n`); // write welcome message 41 cols needed
+  // term.writeln(` ____ ____ ____ ____ ____ ____ ____ ____ \r\n||W |||e |||l |||c |||o |||m |||e |||! ||\r\n||__|||__|||__|||__|||__|||__|||__|||__||\r\n|/__\\|/__\\|/__\\|/__\\|/__\\|/__\\|/__\\|/__\\|\n`); // write welcome message 41 cols needed
+  showBanner(term)
   term.writeln('Type "help" to view all available commands or click on the prompt arrow for the menu!\n')
   // write prompt
-  term.write("\x1b[34m~/Projects/many/more/nested/dirs\x1b[32m\r\n❯ \x1b[0m")
+  // term.write("\x1b[34m~/Projects/many/more/nested/dirs\x1b[32m\r\n❯ \x1b[0m")
 
-  // handle input
-  term.onData((data) => {
-    console.log(term.buffer.active.cursorY, term.buffer.active.cursorX)
-    if (data === '\r') { // Enter
-      term.write('Enter')
-      term.write(`\x1b[58G`)
-      
-    } else if (data === '\x7f') { // Backspace
-      // term.write('\b \b')
-      const prev = getPrevPosition(
-        term.buffer.active.cursorY,
-        term.buffer.active.cursorX,
-        term.cols
-      )
-      term.write(`\x1b[${prev.row+1};${prev.col+1}H `)
-      term.write(`\x1b[${prev.row+1};${prev.col+1}H`)
-      
-    } else if (data === '\x1b[D') { // Left Arrow
-      const prev = getPrevPosition(
-        term.buffer.active.cursorY,
-        term.buffer.active.cursorX,
-        term.cols
-      )
-      term.write(`\x1b[${prev.row+1};${prev.col+1}H`)
-      
-    } else if (data === '\x1b[C') { // Right Arrow
-      const next = getNextPosition(
-        term.buffer.active.cursorY,
-        term.buffer.active.cursorX,
-        term.cols
-      )
-      term.write(`\x1b[${next.row+1};${next.col+1}H`)
-      
-    } else { // Any other char
-      term.write(data)
-    }
-    console.log(term.buffer.active.cursorY, term.buffer.active.cursorX)
-  })
-  // term.onData((data) => {
-  //   if (data.charCodeAt(0) === 13) { // Enter key
-  //     term.write('\r\n');
-  //     processCommand(term, termState);
-  //   } else if (data.charCodeAt(0) === 127) { // Backspace
-  //     if (termState.currentCommand.length > 0) {
-  //       termState.currentCommand = termState.currentCommand.slice(0, -1);
-  //       term.write('\b \b');
-  //     }
-  //   } else {
-  //     termState.currentCommand += data;
-  //     term.write(data);
-  //   }
-  // });
   window.addEventListener('resize', () => {
     fitAddon.fit()
     updateHeaderDimensions(term)
   })
+
+  
+  // let transientLine = "~"
+  function readLoop() {
+    updateOverlayButton(getCellSize(term), term.buffer.active.cursorY, term.buffer.active.cursorX)
+    readline.read(`\x1b[32m❯ \x1b[0m`)
+    // readline.read(`${transientLine}\n\r\x1b[32m❯ \x1b[0m`)
+    .then((cmd) => {
+      // clear prompt lines and write the basic command history
+      processCommand(term, cmd) // to process command and write the output
+      setTimeout(readLoop) // new read line prompt
+    })
+  }
+
+  readLoop()
 }
+
+
+// ██╗   ██╗████████╗██╗██╗     ███████╗
+// ██║   ██║╚══██╔══╝██║██║     ██╔════╝
+// ██║   ██║   ██║   ██║██║     ███████╗
+// ██║   ██║   ██║   ██║██║     ╚════██║
+// ╚██████╔╝   ██║   ██║███████╗███████║
+//  ╚═════╝    ╚═╝   ╚═╝╚══════╝╚══════╝
 
 function updateHeaderDimensions(term: Terminal) {
   const header = document.querySelector("terminal-header")
@@ -130,72 +88,23 @@ function updateHeaderDimensions(term: Terminal) {
   }
 }
 
-function getNextPosition(
+function updateOverlayButton(
+  size: { width: number, height: number } = { width: 15, height: 15 },
   row: number,
-  col: number,
-  maxCols: number,
-  minCols: number = 0): {row: number, col: number} {
-  if (col + 1 >= maxCols) {
-    return { row: row+1, col: minCols }
-  } else {
-    return { row: row, col: col+1 }
-  }
-}
-function getPrevPosition(
-  row: number,
-  col: number,
-  maxCols: number,
-  minCols: number = 0): {row: number, col: number} {
-    console.log(`${col} - 1 < ${minCols} = ${col - 1 < minCols}`)
-  if (col - 1 < minCols) {
-    return { row: row-1, col: maxCols-1 }
-  } else {
-    console.log(`row ${row} col ${col}`)
-    return { row: row, col: col-1 }
+  col: number = 0) {
+  const overButton = document.querySelector("overlay-button")
+  if (overButton) {
+    overButton.setAttribute("data-width", `${size.width}px`)
+    overButton.setAttribute("data-height", `${size.height}px`)
+    overButton.setAttribute("data-top", `${size.height * row}`)
+    overButton.setAttribute("data-left", `${size.width * col}`)
   }
 }
 
-function getCellSize(term: Terminal): { width: number; height: number } | null {
-  const container = term.element;
-  if (!container) return null;
-  console.log((term as any)._core._charSizeService.width)
-    // .getCellSizePixels)
-
-  const cell = document.createElement("span");
-  cell.textContent = "M"; // a typical wide character
-  // cell.style.position = "absolute";
-  cell.style.visibility = "hidden";
-  cell.style.fontFamily = getComputedStyle(container).fontFamily;
-  cell.style.fontSize = getComputedStyle(container).fontSize;
-  document.body.appendChild(cell);
-
-  const rect = cell.getBoundingClientRect();
-  // document.body.removeChild(cell);
-
-  return {
-    width: rect.width,
-    height: rect.height,
-  };
-}
-
-
-// handle command
-function processCommand(term: Terminal, cmd: string) {
-  // capture command
-  // const cmd = termState.inputBuffer
-  // reset command
-  // termState.inputBuffer = ''
-
-  // TODO: remove transient state line
-  //   term.write(`\x1b[1A\r\x1b[2K`); // ← move up, clear line
-
-  if (cmd === 'hello') {
-    term.writeln('Hello World!');
-  } else if (cmd == 'clear') {
-    term.clear()
-  } else if (cmd !== '') {
-    term.writeln(`Unknown command: ${cmd}`);
+function getCellSize(term: Terminal): { width: number; height: number } | undefined {
+  const charSize = (term as any)._core._charSizeService
+  if (charSize) return {
+    width: charSize.width,
+    height: charSize.height
   }
-
-  // showPrompt(term, termState)
 }

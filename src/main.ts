@@ -27,7 +27,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
         border: solid 1px #5B5B5B;">
         <terminal-header data-working-dir='isaaclafond' data-dimensions='420x69'></terminal-header>
         <div id="terminal" style="position: relative; height: calc(100% - 30px); width: 100%; padding: 5px; background-color: #20202A;">
-            <overlay-button></overlay-button>
+            <overlay-button data-width="15" data-height="15" data-top="0" data-left="0"></overlay-button>
         </div>
     </div>
 </div>

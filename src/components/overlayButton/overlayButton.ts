@@ -1,22 +1,29 @@
 import overlayButtonTemplate from './overlayButton.template.html?raw';
 
 export class OverlayButton extends HTMLElement {
-    static observedAttributes = []
+    static observedAttributes = ['data-width', 'data-height', 'data-top', 'data-left']
+    private buttonElem!: HTMLButtonElement
+
     constructor() {
         super()
         const shadow = this.attachShadow({ mode: 'open' })
         shadow.innerHTML = overlayButtonTemplate
-        // this.workingDirElem = shadow.getElementById('workingDir')!
-        // this.dimensionsElem = shadow.getElementById('dimensions')!
+        this.buttonElem = shadow.querySelector('button')!
     }
     
     attributeChangedCallback(name: string, _oldVal: string, newVal: string) {
         switch (name) {
-            case 'data-working-dir':
-                this.updateWorkingDir(newVal)
+            case 'data-width':
+                this.updateWidth(newVal)
                 break;
-            case 'data-dimensions':
-                this.updateDimensions(newVal)
+            case 'data-height':
+                this.updateHeight(newVal)
+                break;
+            case 'data-top':
+                this.updateTop(newVal)
+                break;
+            case 'data-left':
+                this.updateLeft(newVal)
                 break;
             default:
                 console.log('Unknown attribute change')
@@ -24,10 +31,20 @@ export class OverlayButton extends HTMLElement {
         }
     }
 
-    private updateWorkingDir(newDir: string) {
-        // this.workingDirElem.textContent = newDir
+    private updateWidth(newWidth: string) {
+        this.buttonElem.style.width = newWidth
     }
-    private updateDimensions(newDimensions: string) {
-        // this.dimensionsElem.textContent = newDimensions
+    private updateHeight(newHeight: string) {
+        this.buttonElem.style.height = newHeight
+    }
+    private updateTop(newTop: string) {
+        const n = Number(newTop)
+        if (!n) return
+        this.buttonElem.style.top = newTop
+    }
+    private updateLeft(newleft: string) {
+        const n = Number(newleft)
+        if (!n) return
+        this.buttonElem.style.left = newleft
     }
 }
