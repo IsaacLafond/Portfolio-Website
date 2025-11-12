@@ -1,0 +1,73 @@
+<style>
+    nav, a, summary {
+        color: inherit;
+        font-size: inherit;
+    }
+
+    /* all anchors in nav on own line with no deco */
+    a {
+        display: block;
+        width: fit-content;
+        text-decoration: none;
+    }
+
+    /* monospace for symbols to appear properly */
+    * {
+        font-family: monospace;
+    }
+
+    /* hide default detail arrow and have proper pointer */
+    details summary {
+        width: fit-content;
+        cursor: pointer;
+        list-style: none;
+        position: relative; /* necessary? just to be explicit */
+    }
+    details summary::after { /* add / at the end of dir */
+        content: "/";
+    }
+
+    /* note margin support negative that's why margin not padding */
+    /* pad the nested ascii detail */
+    details details {
+        margin-left: 4ch;
+    }
+    details details > summary {
+        margin-left: -4ch;
+    }
+    
+    details a {
+        display: block;
+        position: relative;
+    }
+    
+    details details > summary::before,
+    details > a::before {
+        content: "├── ";
+    }
+    /* Apply └── to the last direct child, but if it's a <details>, apply to its <summary> */
+    details > *:not(details):last-child::before {
+        content: "└── ";
+    }
+    
+    details > details:last-child > summary::before {
+        content: "└── ";
+    }
+</style>
+
+<nav>
+    <a href="#">WELCOME!</a>
+    <a href="#">whoami</a>
+    <a href="#">env</a>
+    <a href="#">coursework.txt</a>
+    <a href="#">experience.txt</a>
+    <details>
+        <summary>projects</summary>
+        <a href="#">HonoursProject.md</a>
+        <a href="#">ImageWebScraper.md</a>
+        <a href="#">MiniRadar.md</a>
+        <a href="#">RealWheel.md</a>
+        <a href="#">PortfolioWebsite.md</a>
+    </details>
+    <!-- search bar for grep eventually -->
+</nav>

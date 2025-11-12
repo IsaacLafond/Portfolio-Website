@@ -1,7 +1,9 @@
 import { Terminal } from '@xterm/xterm'
 import { FitAddon } from "@xterm/addon-fit";
 import { Readline } from "xterm-readline";
-import { processCommand, showBanner } from "./processCommand";
+import { processCommand } from "./processCommand";
+import { updateHeaderDimensions } from "../../utils/stateUpdates";
+import { makeOSC8Link } from "../../utils/terminalUtils";
 import './xterm.css';
 
 // ==========================
@@ -33,6 +35,7 @@ export function setupTerminal() {
       brightWhite: "#63718B"
     }
   })
+  let currentPath: string[] = []
   // init addons
   const fitAddon = new FitAddon()
   const readline = new Readline()
@@ -43,68 +46,30 @@ export function setupTerminal() {
   term.open(document.getElementById('terminal')!); // add term to #terminal div
   // fit terminal and update dimensions
   fitAddon.fit()
-  updateHeaderDimensions(term)
+  updateHeaderDimensions(term.rows, term.cols)
 
-  // write to terminal
-  // term.writeln(` ____ ____ ____ ____ ____ ____ ____ ____ \r\n||W |||e |||l |||c |||o |||m |||e |||! ||\r\n||__|||__|||__|||__|||__|||__|||__|||__||\r\n|/__\\|/__\\|/__\\|/__\\|/__\\|/__\\|/__\\|/__\\|\n`); // write welcome message 41 cols needed
-  showBanner(term)
-  term.writeln('Type "help" to view all available commands or click on the prompt arrow for the menu!\n')
-  // write prompt
-  // term.write("\x1b[34m~/Projects/many/more/nested/dirs\x1b[32m\r\n❯ \x1b[0m")
-
-  window.addEventListener('resize', () => {
-    fitAddon.fit()
-    updateHeaderDimensions(term)
-  })
-
+  // show intro banner
+  term.write(processCommand('banner', term.cols, currentPath).output)
   
   // let transientLine = "~"
   function readLoop() {
-    updateOverlayButton(getCellSize(term), term.buffer.active.cursorY, term.buffer.active.cursorX)
+    // const prompt = makeOSC8Link('❯', '')
+    // readline.read(`\x1b[32m${prompt} \x1b[0m`)
     readline.read(`\x1b[32m❯ \x1b[0m`)
-    // readline.read(`${transientLine}\n\r\x1b[32m❯ \x1b[0m`)
     .then((cmd) => {
       // clear prompt lines and write the basic command history
-      processCommand(term, cmd) // to process command and write the output
+      const { output, newPath } = processCommand(cmd, term.cols, currentPath) // to process command and write the output
+      console.log(output)
+      readline.print(output)
+      if (newPath) currentPath = newPath
       setTimeout(readLoop) // new read line prompt
     })
   }
 
   readLoop()
-}
 
-
-// ██╗   ██╗████████╗██╗██╗     ███████╗
-// ██║   ██║╚══██╔══╝██║██║     ██╔════╝
-// ██║   ██║   ██║   ██║██║     ███████╗
-// ██║   ██║   ██║   ██║██║     ╚════██║
-// ╚██████╔╝   ██║   ██║███████╗███████║
-//  ╚═════╝    ╚═╝   ╚═╝╚══════╝╚══════╝
-
-function updateHeaderDimensions(term: Terminal) {
-  const header = document.querySelector("terminal-header")
-  if (header) {
-    header.setAttribute("data-dimensions", `${term.cols}x${term.rows}`)
-  }
-}
-
-function updateOverlayButton(
-  size: { width: number, height: number } = { width: 15, height: 15 },
-  row: number,
-  col: number = 0) {
-  const overButton = document.querySelector("overlay-button")
-  if (overButton) {
-    overButton.setAttribute("data-width", `${size.width}px`)
-    overButton.setAttribute("data-height", `${size.height}px`)
-    overButton.setAttribute("data-top", `${size.height * row}`)
-    overButton.setAttribute("data-left", `${size.width * col}`)
-  }
-}
-
-function getCellSize(term: Terminal): { width: number; height: number } | undefined {
-  const charSize = (term as any)._core._charSizeService
-  if (charSize) return {
-    width: charSize.width,
-    height: charSize.height
-  }
+  window.addEventListener('resize', () => {
+    fitAddon.fit()
+    updateHeaderDimensions(term.rows, term.cols)
+  })
 }

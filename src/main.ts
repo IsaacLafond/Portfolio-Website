@@ -1,12 +1,15 @@
 import './style.css'
 import { TerminalHeader } from "./components/header/header";
 import { setupTerminal } from './components/terminal/terminal'
-import { OverlayButton } from "./components/overlayButton/overlayButton";
+import { OverlayMenu } from "./components/overlayMenu/overlayMenu";
+import { AsciiTreeMenu } from "./components/asciiTreeMenu/asciiTreeMenu";
 import topojpeg from "./assets/TopoBackground.jpg";
 
 // require webcomponents
 customElements.define("terminal-header", TerminalHeader)
-customElements.define("overlay-button", OverlayButton)
+customElements.define("overlay-menu", OverlayMenu)
+customElements.define("ascii-tree-menu", AsciiTreeMenu)
+
 
 // ========================
 // ===== App Template =====
@@ -26,10 +29,15 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
         border-radius: 15px;
         border: solid 1px #5B5B5B;">
         <terminal-header data-working-dir='isaaclafond' data-dimensions='420x69'></terminal-header>
-        <div id="terminal" style="position: relative; height: calc(100% - 30px); width: 100%; padding: 5px; background-color: #20202A;">
-            <overlay-button data-width="15" data-height="15" data-top="0" data-left="0"></overlay-button>
+        <div style="position: relative; display: flex; align-items: center; justify-content: center; height: calc(100% - 30px); width: 100%; padding: 5px; background-color: #20202A;">
+            
+            <div id="terminal" style="height: 100%; width: 100%;"></div>
         </div>
     </div>
 </div>
 `
+// <img id="test-img" src="" style="display: none;" />
+            // <overlay-menu data-display='block' style="background-color: #20202A;">
+            //     <ascii-tree-menu style="color: #C6D0E9;"></ascii-tree-menu>
+            // </overlay-menu>
 setupTerminal()
