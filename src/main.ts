@@ -1,13 +1,10 @@
 import './style.css'
 import { TerminalHeader } from "./components/header/header";
-import { setupTerminal } from './components/terminal/terminal'
-import { OverlayMenu } from "./components/overlayMenu/overlayMenu";
 import { AsciiTreeMenu } from "./components/asciiTreeMenu/asciiTreeMenu";
 import topojpeg from "./assets/TopoBackground.jpg";
 
 // require webcomponents
 customElements.define("terminal-header", TerminalHeader)
-customElements.define("overlay-menu", OverlayMenu)
 customElements.define("ascii-tree-menu", AsciiTreeMenu)
 
 
@@ -36,8 +33,13 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     </div>
 </div>
 `
-// <img id="test-img" src="" style="display: none;" />
             // <overlay-menu data-display='block' style="background-color: #20202A;">
             //     <ascii-tree-menu style="color: #C6D0E9;"></ascii-tree-menu>
             // </overlay-menu>
-setupTerminal()
+
+// setupTerminal()
+
+window.addEventListener('resize', () => {
+    // fitAddon.fit()
+    // updateHeaderDimensions(term.rows, term.cols)
+})

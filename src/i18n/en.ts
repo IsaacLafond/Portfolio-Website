@@ -1,19 +1,10 @@
 export const Content = {
-    // ==================
-    // ===== Banner =====
-    // ==================
-    "banner": {
-        "en": 'Type "man" to view all available commands.',
-
-        "fr": "Coming soon..."
-    },
     
 
     // ==================
     // ===== Whoami =====
     // ==================
-    "whoami": {
-        "en":
+    "whoami":
 ` _______________________________________________________________________________ 
 |  ___________________________________________________________________________  |
 | |                                                                           | |
@@ -41,34 +32,23 @@ export const Content = {
 | |___________________________________________________________________________| |
 |_______________________________________________________________________________|`,
 
-        "fr": "Coming soon..."
-    },
-
 
     // =======================
     // ===== Environment =====
     // =======================
-    "env": {
-        "en":
+    "env":
 `[Languages] Python, Java, C, Go, Swift, Javascript/Typescript, SQL, HTML, CSS
 [Frameworks/Technologies] React, SwiftUI, Express.js, Flask, OpenCV, Pandas, PostgreSQL
 [Tools] Git, GitHub, VSCode, XCode, Linux (Ubuntu, Kali), MacOS, Windows, VirtualBox, Wireshark`,
-
-        "fr":
-`[Langages] Python, Java, C, Go, Swift, Javascript/Typescript, SQL, HTML, CSS
-[Frameworks/Technologies] React, SwiftUI, Express.js, Flask, OpenCV, Pandas, PostgreSQL
-[Outils] Git, GitHub, VSCode, XCode, Linux (Ubuntu, Kali), MacOS, Windows, VirtualBox, Wireshark`
-    },
 
 
     // ======================
     // ===== Coursework =====
     // ======================
-    "coursework.txt": {
-        "en": 
+    "coursework.txt":
 `Here are some of the courses I took during my Computer Science Degree at the University of Ottawa.
 
-\x1b[32mCSI 4139 - Design of Secure Computer Systems\x1b[0m
+CSI 4139 - Design of Secure Computer Systems
 VirtualBox, Kali Linux, BurpSuite, WireShark
 Description: Security policies. Security mechanisms. Physical security. Security awareness. User authentication. Application security mechanisms. Encryption. External and internal firewalls. Security of operating systems and software. Security of e-commerce applications. Design of security system and components. Devices for security analysis; sniffers, attack detectors. Information warfare. Ethical issues in computer security.
 
@@ -129,17 +109,11 @@ Description: The Digital Earth produces petabytes of data every day, and over 90
 ENG 1112 - Technical Report Writing
 Description: Practice in the writing of technical reports. Topics include exposition, argumentation, presentation of technical data, and effective communication. Frequent written exercises and development of composition skills. Use of Writing Centre resources required outside regular class hours.`,
 
-        "fr":
-`Coming soon...`
-    },
-
 
     // ======================
     // ===== Experience =====
     // ======================
-    "experience.txt": {
-        "en":
-`|
+    "experience.txt": `|
 O---- Ticket Sales Manager
 |     Ottawa Boat Cruise: Ottawa, ON - May 2024 to October 2024 & May 2025 to Present
 |       * Consistently ranked amongst the highest selling ticket sellers
@@ -176,77 +150,5 @@ O---- Umpire
 |       * Maintained positive coach and player relations
 |       * Enforced game rules and regulations
 |       * Managed conflict resolution
-|`,
-
-        "fr":
-`|
-O---- Superviseur des billeteries
-|     Cruisière Outaouais: Ottawa, ON - May 2024 to October 2024 & May 2025 to Present
-|       * Classé régulièrement parmi les meilleurs vendeurs de billets
-|       * Créé et géré les horaires des employés afin d'assurer une courverture optimale des kiosques et un fonctionnement fluide
-|       * Assuré un embarquement et départs ponctuels
-|       * Offert un service à la clientèle entièrement bilingue
-|
-O---- Chef d'équipe *****TODO*****
-|     Capital Skates: Ottawa, ON - January 2025 to March 2025
-|       * Managed a team of skate rental assistants
-|       * Trained new hires on effectively using the booking system to manage rentals
-|       * Provided fully bilingual customer service
-|
-O---- Sales Associate *****TODO*****
-|     Sail Plein Air Inc: Ottawa, ON - August 2020 - August 2023
-|       * Maintained and developed customer relations in French and English
-|       * Identified customer needs and recommended products tailored to their requirements
-|       * Organized inventory
-|
-O---- General Labourer *****TODO*****
-|     Ideal Roofing: Ottawa, ON - June 2018 - August 2020
-|       * Facilitated product production
-|       * Fulfilled and packaged orders
-|       * Used heavy machinery to manage and organize inventory
-|
-O---- Referee *****TODO*****
-|     Ontario Volleyball Association: Ottawa, ON - September 2018 - June 2019 and September 2019 - June 2020
-|       * Maintained positive coach and player relations
-|       * Enforced game rules and regulations
-|       * Managed conflict resolution
-|
-O---- Umpire *****TODO*****
-|     Glebe Little League: Ottawa, ON - Summer 2016 - 2018
-|       * Maintenir des relations positive avec les entraîneur et joueurs
-|       * Enforced game rules and regulations
-|       * Managed conflict resolution
 |`
-    },
-
-    // ==================
-    // ===== Manuel =====
-    // ==================
-    "man": {
-        "en":
-`Welcome to the manuel!
-
-banner: Show the welcome banner
-whoami: Learn a bit about me!
-env:    My tools and technolgies
-ls:     List files and directory
-cd:     Change directory. Example: cd <dir>
-cat:    View file contents. Example: cat <file>
-grep:   Search keywords on the site (coming soon...)
-lang:   Change the language (coming soon...)
-clear:  clear the terminal`,
-
-        "fr":
-`Bienvienue au manuel!
-
-banner: Afficher la bannière de bienvenue
-whoami: Apprendre un peu à propos de moi!
-env:    Mes outils et technolgies
-ls:     Lister les fichiers et les répertoires
-cd:     Changer de répertoires. Exemple: cd <rep>
-cat:    Afficher le contenu du fichier. Exemple: cat <fichier>
-grep:   Rechercher des mots-clés sur le site (À venir...)
-lang:   Changer la langue (À venir...)
-clear:  Effacer le terminal`
-    }
 }
