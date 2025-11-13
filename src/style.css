@@ -13,6 +13,26 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --term-background: #20202A;
+  --term-foreground: #C6D0E9;
+  --term-cursor: #B8DCEB;
+  --term-black: #44495E;
+  --term-red: #EBB9B9;
+  --term-green: #CAF6BB;
+  --term-yellow: #EBE3B9;
+  --term-blue: #CDDBF9;
+  --term-magenta: #F6BBE7;
+  --term-cyan: #B8DCEB;
+  --term-white: #C6D0E9;
+  --term-bright-black: #3B3B4D;
+  --term-bright-red: #CC9B9D;
+  --term-bright-green: #A3CCAD;
+  --term-bright-yellow: #D1BA97;
+  --term-bright-blue: #B8C9EA;
+  --term-bright-magenta: #C497B3;
+  --term-bright-cyan: #95C2D1;
+  --term-bright-white: #63718B;
 }
 
 * {
@@ -20,4 +40,23 @@
   padding: 0;
   overscroll-behavior: none;
   box-sizing: border-box;
+}
+
+body {
+  font-family: monospace;
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+}
+.centered {
+  align-self: center;
+}
+
+.terminal-header {
+  font-size: 1rem;
+}
+.terminal-header span {
+  color: var(--term-green);
 }
