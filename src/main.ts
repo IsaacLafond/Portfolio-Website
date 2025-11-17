@@ -12,6 +12,7 @@ import { AsciiTreeMenu } from "./components/asciiTreeMenu/asciiTreeMenu";
 
 // Asset imports
 import topojpeg from "./assets/TopoBackground.jpg";
+import { updateHeaderDimensions } from './utils/stateUpdates';
 
 
 // def webcomponent custom elems
@@ -47,10 +48,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
                 <section>${AboutPage}</section>
                 <br>
 
-                <section>
-                    ${ProjectsPage}
-                    <ascii-tree-menu style="color: #C6D0E9;"></ascii-tree-menu>
-                </section>
+                <section>${ProjectsPage}</section>
                 <br>
                 
                 <section>${ExperiencePage}</section>
@@ -65,9 +63,16 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 </div>
 `
 
-// setupTerminal()
+// Run the update header dimensions here to set initial dims
+const term = getTermRowCol()
+updateHeaderDimensions(term.rows, term.cols)
 
 window.addEventListener('resize', () => {
-    // fitAddon.fit()
-    // updateHeaderDimensions(term.rows, term.cols)
+    const term = getTermRowCol()
+    updateHeaderDimensions(term.rows, term.cols)
 })
+
+function getTermRowCol(): {rows:number , cols:number} {
+    // TODO: calculate based on terminal size
+    return {rows: 420, cols: 69}
+}
